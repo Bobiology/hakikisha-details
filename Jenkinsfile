@@ -41,7 +41,7 @@ pipeline {
                     docker { 
                     image 'bobiologist/hakikisha-info:$BUILD_NUMBER'
                     registryUrl 'https://hub.docker.com/'
-                    //label "test-env"
+                    label "dockerhub"
                     }
                 }
                 
