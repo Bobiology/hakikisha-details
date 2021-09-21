@@ -35,13 +35,8 @@ pipeline {
             steps {
                 script {
                     // Assume the Docker Hub registry by passing an empty string as the first parameter
-                    /*docker.withRegistry('' , 'dockerhub') {
+                     docker.withRegistry('https://hub.docker.com/' , 'dockerhub') {
                         dockerImage.push()
-                    }*/
-                    docker { 
-                    image 'bobiologist/hakikisha-info:$BUILD_NUMBER'
-                    registryUrl 'https://hub.docker.com/'
-                    label "dockerhub"
                     }
                 }
                 
