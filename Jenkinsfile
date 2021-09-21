@@ -1,88 +1,51 @@
-def applicationName = "jenkins-docker-maven-example"
-def beanstalkRegion = "us-east-1"
-def beanstalkInstanceProfile = ""
-def beanstalkServiceRole = ""
-
-node {
-    
-  stage 'Checkout'
-  //git 'https://github.com/Bobiology/hakikisha-info.git'
-  // shortcut to checkout from where this Jenkinsfile is hosted
-  checkout scm
-
-  stage 'Build and Test'
-  // Build using a plain docker container, not our local Dockerfile
-  def mvnContainer = docker.image('jimschubert/8-jdk-alpine-mvn')
-  mvnContainer.inside('-v /m2repo:/m2repo') {
-      // Set up a shared Maven repo so we don't need to download all dependencies on every build.
-      writeFile file: 'settings.xml',
-         text: '<settings><localRepository>/m2repo</localRepository></settings>'
-      
-      // Build with maven settings.xml file that specs the local Maven repo.
-      sh 'mvn -B -s settings.xml package'
-   }
-        
-  stage 'Package Docker image'
-  // Build final releasable image using our Dockerfile and the docker.build cmd
-  // This container only contains the packaged jar, not the source or interim build steps
-  def img = docker.build('hakikisha-info:latest', '.')
-    
-  stage name: 'Push Image', concurrency: 1
-  // All the tests passed. We can now retag and push the 'latest' image
-  docker.withRegistry('https://hub.docker.com/', 'dockerhub') {
-     img.push('latest')
-  }
-    
-  stage 'Pull Image'
-  // Now let's pull it, just to test that a pull from Nexus works correctly
-  docker.withRegistry('https://hub.docker.com/', 'dockerhub') {
-     docker.image("bobiologist/hakikisha-info:latest").pull()
-  }
-  
-  stage 'Pull EB deploy container'
-   // Check to ensure that we can access the EB deploy commands container
-   def ebcliDocker = docker.image("coxauto/aws-ebcli")
-   ebcliDocker.pull()
-   
-   //Now we deploy
-  stage 'Deploy Production to Beanstalk'
-  
-    createBeanstalkEnvironmentsIfUnavailable(applicationName, applicationName, applicationName,
-       beanstalkRegion, beanstalkInstanceProfile, beanstalkServiceRole)
-    
-    deployToEnvironment(applicationName)
-    
-}
-
-
-def createBeanstalkEnvironmentsIfUnavailable(appName, env, cnamePrefix, region, ip, role) {
-    echo 'Verifying availability of beanstalk app: ' + appName + ' and env: ' + env + ' in region ' + region
-
-    def ebcliDocker = docker.image("coxauto/aws-ebcli")
-
-    ebcliDocker.inside() {
-        sh 'aws elasticbeanstalk describe-environments --region ' + region + ' --application-name ' + appName + ' --query \'Environments[?EnvironmentName==`' + env + '`]\' > env.available'
+pipeline {
+    agent {
+        label 'docker'
     }
-
-    def ebEnvStatus = readFile('env.available');
-
-    if (ebEnvStatus.contains(env) && ! ebEnvStatus.contains('Terminated')) {
-        echo 'Environment ' + env + ' is available for deployment'
-    } else {
-        echo 'Environment' + env + ' is not available.  Creating beanstalk environment...'
-        ebcliDocker.inside() {
-            sh 'eb create ' + env + ' -c ' + cnamePrefix + ' --sample ' //--instance_profile ' + ip + ' --service-role ' + role
+    //  parameters here provide the shared values used with each of the hakikisha pipeline steps.
+   /* 
+   parameters {
+        // The space ID that we will be working with. The default space is typically Spaces-1.
+        string(defaultValue: 'Spaces-1', description: '', name: 'SpaceId', trim: true)
+        // The hakikisha project we will be deploying.
+        string(defaultValue: 'Petclinic', description: '', name: 'ProjectName', trim: true)
+        // The environment we will be deploying to.
+        string(defaultValue: 'Dev', description: '', name: 'EnvironmentName', trim: true)
+        // The name of the hakikisha instance in Jenkins that we will be working with. This is set in:
+        // Manage Jenkins -> Configure System -> hakikisha Deploy Plugin
+        string(defaultValue: 'hakikisha', description: '', name: 'ServerId', trim: true)
+    }
+    */
+    stages {
+        /*
+        stage ('Add tools') {
+            steps {
+                tool('OctoCLI')
+            }
         }
+        */
+        stage('Building our image') {
+            steps {
+                script {
+                    dockerImage = docker.build "bobiologist/hakikisha-info:$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Deploy our image') {
+            steps {
+                script {
+                    // Assume the Docker Hub registry by passing an empty string as the first parameter
+                    docker.withRegistry('' , 'dockerhub') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        /*
+        stage('deploy') {
+            steps {                                
+                octopusCreateRelease deployThisRelease: true, environment: "${EnvironmentName}", project: "${ProjectName}", releaseVersion: "1.0.${BUILD_NUMBER}", serverId: "${ServerId}", spaceId: "${SpaceId}", toolId: 'Default', waitForDeployment: true                
+            }
+        }*/
     }
-}
-
-def deployToEnvironment(env) {
-    echo 'Deploying to ' + env
-
-    def ebcliDocker = docker.image("coxauto/aws-ebcli")
-    ebcliDocker.inside() {
-        sh 'eb deploy ' + env
-    }
-
-    echo 'Completed deployment'
 }
