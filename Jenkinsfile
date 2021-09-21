@@ -8,10 +8,10 @@ pipeline {
     agent {
         label 'docker'
     }
-    /*tools {
-        M2_HOME 'Maven 3.8.2'
-        JAVA_HOME 'jdk9'
-      }*/
+    tools {
+        maven 'M2_HOME'
+        jdk 'JAVA_HOME'
+     }
     stages {
         stage('Initialize'){
             steps{
