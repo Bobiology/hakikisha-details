@@ -3,7 +3,7 @@ pipeline {
     registry = "bobiologist/hakikisha-info"
     registryCredential = 'dockerhub'
     dockerImage = ''
-    gitRegistry = "https://github.com/Bobiology/hakikisha-info"
+    gitRegistry = "https://github.com/Bobiology/hakikisha-details.git"
     }
     agent {
         label 'docker'
