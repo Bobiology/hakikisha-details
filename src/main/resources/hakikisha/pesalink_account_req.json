@@ -1,0 +1,24 @@
+{
+    "header": {
+        "messageID": "${MESSAGEID}",
+        "featureCode": "IPSL-ISO20022",
+        "featureName": "PESALINK",
+        "serviceCode": "NULL",
+        "serviceName": "NULL",
+        "serviceSubCategory": "Verify",
+        "minorServiceVersion": "V2",
+        "channelCode": "VOOMA",
+        "channelName": "VOOMA",
+        "routeCode": "NULL",
+        "timeStamp": "${TIMESTAMP}",
+        "serviceMode": "SYNC",
+        "subscribeEvents": "NULL",
+        "callBackURL": "http://localhost:8080/cb"
+    },
+    "requestPayload": {
+            "beneficiaryAccountNumber": "${ACCOUNT_NUMBER}",
+            "beneficiaryBankCode": "${BENEFICIARY_BANKCODE}",
+            "beneficiaryName": null,
+            "senderBankCode": "${SENDER_BANKCODE}"
+        }
+}

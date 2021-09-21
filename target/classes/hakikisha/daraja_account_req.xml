@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://API.Interface.kcb/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:KCBDarajaInterface>
+         <UserName>${LOGIN}</UserName>
+         <Password>${PASSWORD}</Password>
+         <CompanyId>${COMPANY_ID}</CompanyId>
+         <ChannelId>${CHANNEL_ID}</ChannelId>
+         <BillerId>${BILLER_ID}</BillerId>
+         <ServiceId>${SERVICE_ID}</ServiceId>
+         <SessionId>${SESSION_ID}</SessionId>
+         <TimeStamp>${TIMESTAMP}</TimeStamp>
+         <MessageTypeIndicator>0200</MessageTypeIndicator>
+         <PayLoad>
+            <AccountId>${ACCOUNT}</AccountId>
+         </PayLoad>
+      </api:KCBDarajaInterface>
+   </soapenv:Body>
+</soapenv:Envelope>
