@@ -21,7 +21,7 @@ pipeline {
         }
        stage('Cloning Git') {
         steps {
-            git gitRegistry
+            sh 'git clone $gitRegistry' 
            }
        }
        stage('Build Artifact') {
