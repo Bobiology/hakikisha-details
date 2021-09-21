@@ -11,7 +11,16 @@ pipeline {
     stages {
         stage ('Add tools') {
             steps {
-                tool('maven')
+                tools {
+                    maven 'Maven 3.3.8'
+                    jdk 'jdk8'
+                }
+            }
+        }
+        stage('Initialize'){
+            steps{
+                echo "PATH = ${M2_HOME}/bin:${PATH}"
+                echo "M2_HOME = /opt/maven"
             }
         }
        stage('Cloning Git') {
