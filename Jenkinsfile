@@ -9,7 +9,7 @@ pipeline {
         label 'docker'
     }
     tools {
-        M2_HOME 'Maven 3.3.8'
+        M2_HOME 'Maven 3.8.2'
         JAVA_HOME 'jdk9'
       }
     stages {
