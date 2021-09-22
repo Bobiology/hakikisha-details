@@ -49,7 +49,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'docker', variable: 'docker')]) {
                     sh 'docker login -u bobiologist -p ${docker}'
                 }
-                    sh 'docker push dockerImage'
+                sh 'docker push ' + dockerImage
                 //dockerImage.push()
                 //}
              }
