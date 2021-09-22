@@ -5,9 +5,10 @@ pipeline {
     dockerImage = ''
     gitRegistry = "https://github.com/Bobiology/hakikisha-details.git"
     }
-    agent {
+    /*agent {
         label 'docker'
-    }
+    }*/
+    agent any
     tools {
         maven 'M2_HOME'
         jdk 'JAVA_HOME'
