@@ -40,8 +40,12 @@ pipeline {
         stage('Deploy Image') {
           steps{
             script {
-                docker.withRegistry('', registryCredential ) {
+                //docker.withRegistry('', registryCredential ) {
+                //dockerImage.push()
+                // This step should not normally be used in your script. Consult the inline help for details.
+                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/') {
                 dockerImage.push()
+                }
              }
            }
          }
