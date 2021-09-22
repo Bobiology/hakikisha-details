@@ -43,9 +43,15 @@ pipeline {
                 //docker.withRegistry('', registryCredential ) {
                 //dockerImage.push()
                 // This step should not normally be used in your script. Consult the inline help for details.
-                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/') {
-                dockerImage.push()
+                //withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/') {
+                //dockerImage.push()
+                
+                withCredentials([string(credentialsId: 'docker', variable: 'docker')]) {
+                    sh 'docker login -u bobiologist -p ${docker}'
                 }
+                    sh 'docker push dockerImage'
+                //dockerImage.push()
+                //}
              }
            }
         }
