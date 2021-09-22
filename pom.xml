@@ -9,7 +9,7 @@
 		<version>2.5.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.kcbgroup</groupId>
+	<groupId>io.mglobe</groupId>
 	<artifactId>hakikisha-info</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hakikisha-info</name>
