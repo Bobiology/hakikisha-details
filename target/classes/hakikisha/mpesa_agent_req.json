@@ -1,0 +1,10 @@
+{
+   "forwardingReason":"GetAgentData",
+   "orderId":"${MESSAGE_ID}",
+   "parameters":[
+  {
+         "key":"AgentNumber",
+         "value":"${AGENT_NUMBER}"
+  }
+   ]
+}

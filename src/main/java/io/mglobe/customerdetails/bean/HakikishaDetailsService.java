@@ -294,7 +294,8 @@ public class HakikishaDetailsService {
 		hakiInfo.setBankDetails(banks);
 
 		PrimaryData data = new PrimaryData();
-
+		data.setBusinessKey("1172892731");
+		data.setBusinessKeyType("AccountNumber");
 		ResponsePayload payload = new ResponsePayload();
 		payload.setHakikishaInfo(hakiInfo);
 		payload.setPrimaryData(data);
