@@ -20,11 +20,11 @@ pipeline {
                 echo "M2_HOME = /opt/maven"
             }
         }
-       stage('Cloning Git') {
+      /* stage('Cloning Git') {
         steps {
             sh 'git clone $gitRegistry' 
            }
-       }
+       }*/
        stage('Build Artifact') {
          steps {
            sh 'mvn -B -DskipTests clean package'
