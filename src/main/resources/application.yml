@@ -54,22 +54,22 @@ logging:
 #pesalink endpoints details  
 pesalink:
   account:
-    hostUrl: http://172.16.17.25:20004/api/v1/pesalink/verification
+    hostUrl: 
     login: admin
     password: admin
     requestPayloadFilePath: /hakikisha/pesalink_account_req.json
   mobile: 
-    hostUrl: http://172.17.152.67:8527/kba/webservices/v2/LookupDbWS
-    login: KCB
-    password: 123456
+    hostUrl: 
+    login: Test
+    password: test
     requestPayloadFilePath: /hakikisha/pesalink_mobile_req.xml
     transactionCost: 0
     
 #daraja endpoints details 161
 daraja: 
-  hostUrl: http://172.16.21.118:8085/KcbDaraja/DarajaAPI
-  login: ESbuser001
-  password: ESBuXer#2@19121Ui
+  hostUrl: 
+  login: Test
+  password: Test
   requestPayloadFilePath: /hakikisha/daraja_account_req.xml
   ServiceId: 3
   BillerId: 1
@@ -81,10 +81,10 @@ daraja:
 #mpesa agent endpoints details
 mpesa: 
   agent: 
-    hostUrl: https://172.17.74.214:7846/API/getAgentData
+    hostUrl: 
     requestPayloadFilePath: /hakikisha/mpesa_agent_req.json
     systemCode: 043
-    password: MTIzNDU2MDAwMDAwMDAwMAe9OjBVvr9lI23fygLnlZmsC0Jl/rESOQoibMKI6GgmT0duDYYH/43QGkJye3KF0g==
+    password: test
     transactionCost: 0
 
 
