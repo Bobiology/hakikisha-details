@@ -8,7 +8,7 @@ public class DarajaAuth {
 public static void mainAA(String []a){
     String SessionID="20010202049";
     String TransactionReference="qwedfsa5051";
-    String Password="iMobeeUxer$$2@1O12Ii";
+    String Password="Test";
     DarajaAuth d5 =new DarajaAuth();
    //System.err.println(d5.Auth(TransactionReference,SessionID,Password));\
     String BillRefNumber ="";
